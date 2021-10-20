@@ -1,11 +1,18 @@
-import { Application } from 'https://deno.land/x/oak/mod.ts';
+/*
+ * @Author: liukai
+ * @since: 2021-10-20 11:41:12
+ * @LastAuthor: liukai
+ * @lastTime: 2021-10-20 17:11:26
+ */
 
-const app = new Application();
 
-app.use(async (context) => {
-  await context.send({
-    root: Deno.cwd(), // 静态资源的根路径
-  });
-});
+import { listenAndServe } from 'https://deno.land/std@0.111.0/http/server.ts';
 
-await app.listen({ hostname: '127.0.0.1', port: 8000 });
+function handler(req) {
+  console.log(req,'req')
+  if(req=='test')return new Response('hello test!')
+  return new Response('Hello world, this is hot reload!');
+}
+
+console.log('Listening on http://localhost:8000');
+await listenAndServe(':8000', handler);
